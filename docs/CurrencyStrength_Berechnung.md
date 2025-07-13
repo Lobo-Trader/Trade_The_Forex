@@ -71,6 +71,13 @@ CSI_X = (1/N) * Summe über alle Paare mit X:
 - GBPUSD: USD ist Quote → -Change
 - NZDUSD: USD ist Quote → -Change
 
+Beispiel :
+  AUDUSD fällt (Change = −0,2)
+
+    AUD: + (−0,2) → −0,2
+    USD: − (−0,2) → +0,2
+
+
 ---
 
 ### d) (Optional) Volumen- oder Gewichtung
