@@ -17,11 +17,12 @@ input bool   WriteStatus   = true;                   // Status-Heartbeat-File sc
 //== Eindeutige Liste aller 28 Major/Minor FX-Paare =====================
 string FXPairs[] = {
     "AUDCAD","AUDCHF","AUDJPY","AUDNZD","AUDUSD",
-    "CADCHF","CADJPY","EURAUD","EURCAD","EURCHF",
-    "EURGBP","EURJPY","EURNZD","EURUSD","GBPAUD",
-    "GBPCAD","GBPCHF","GBPJPY","GBPNZD","GBPUSD",
-    "NZDCAD","NZDCHF","NZDJPY","NZDUSD","USDCAD",
-    "USDCHF","USDJPY"
+    "CADCHF","CADJPY","CADNZD",
+    "CHFJPY","CHFNZD",
+    "EURAUD","EURCAD","EURCHF","EURGBP","EURJPY","EURNZD","EURUSD",
+    "GBPAUD","GBPCAD","GBPCHF","GBPJPY","GBPNZD","GBPUSD",
+    "NZDCAD","NZDCHF","NZDJPY","NZDUSD",
+    "USDCAD","USDCHF","USDJPY"
 };
 string CSVFile;
 datetime LastWrittenBar = 0;
