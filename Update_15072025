@@ -1,0 +1,43 @@
+# FX CSI Berechnung
+
+Dieses Projekt dient zur Berechnung des **Currency Strength Index (CSI)** für verschiedene Major-Währungen (AUD, CAD, CHF, EUR, GBP, JPY, NZD, USD) aus historischen FX-Daten.
+
+## Ablauf
+
+1. **Datenbasis**  
+   Die MasterMatrix (`FX_History_*.csv`) enthält für jeden Zeitschritt die gewichteten Kursveränderungen der Symbole, z.B. AUDCAD, EURUSD etc.
+
+2. **CSI-Berechnung**  
+   Die CSI-Matrix (`FX_CSI_*.csv`) stellt für jeden Zeitschritt die aggregierte Stärke/Schwäche jeder Währung dar.  
+   - **Positiver Wert**: Die Währung ist im Durchschnitt gegen andere gestiegen.
+   - **Negativer Wert**: Die Währung ist im Durchschnitt gefallen.
+   - **Leere Felder**: Für diesen Zeitpunkt liegen keine Daten zu dieser Währung vor.
+
+   Beispiel:
+   ```
+   timestamp;AUD;CAD;CHF;EUR;GBP;JPY;NZD;USD
+   2025.04.07 10:13;-8.88;8.88;;;;;;
+   2025.04.07 10:14;1.58;-1.58;;;;;;
+   ```
+
+3. **Technische Umsetzung**  
+   Die Berechnung erfolgt mit Python und pandas:
+   - Alle Symbole werden in Basis- und Gegenwährung zerlegt.
+   - Für die Basiswährung wird der Wert addiert, für die Gegenwährung subtrahiert.
+   - Nach Group-By und Pivot entsteht die CSI-Matrix.
+
+## Hinweise zur Interpretation
+
+- Die CSI-Werte sind **relativ**. Sie zeigen die durchschnittliche Bewegung der Währung über alle Instrumente im Datensatz.
+- Extrem positive/negative Werte deuten auf schnelle, starke Bewegungen im Markt.
+- Die CSI-Matrix kann für weitere Analysen oder Visualisierungen (z.B. Heatmaps, Zeitreihenplots) genutzt werden.
+
+## Weitere Schritte
+
+- Die Logik und Ergebnisse sollten noch validiert werden (z.B. gegen bekannte FX-Indikatoren).
+- Automatische Diagramme und Reports sind möglich.
+- Bei Fragen oder zur Anpassung der CSI-Methodik: Bitte melden!
+
+---
+
+**Erstellt von Lobo-Trader mit Unterstützung von GitHub Copilot.**
