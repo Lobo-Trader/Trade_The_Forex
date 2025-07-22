@@ -72,5 +72,48 @@ Grundlegende mathematische Operationen, statistische Kennzahlen, schnelle Berech
 **Was kann es?**  
 Speziell für **Zeitreihen-Prognosen** mit Trends, Saisonalität und Feiertagseffekten, sehr einfach zu bedienen.
 
-****
-
+**Typische Funktionen:**  
+- `Prophet()`
+- `fit()`
+- `predict()`
+
+---
+
+## 7. XGBoost, LightGBM, CatBoost
+
+**Was können sie?**  
+**Moderne ML-Modelle** für komplexe Zeitreihen-Prognosen und Feature-Auswertung.
+
+---
+
+## 8. TensorFlow/Keras, PyTorch
+
+**Was können sie?**  
+**Tiefe neuronale Netze** für Zeitreihenanalysen, z.B. LSTM, GRU, CNNs.
+
+---
+
+## 9. tslearn, darts, sktime
+
+**Was können sie?**  
+Spezialisierte Bibliotheken für Zeitreihenklassifikation, Clustering und Prognose.
+
+---
+
+## 10. Eigene Algorithmen und Methoden
+
+Gleitende Durchschnitte, Differenzenbildung, Trendberechnung, Saisonalitätsberechnung usw. lassen sich mit den oben genannten Tools direkt programmieren.
+
+---
+
+### Zusammengefasst
+
+- **pandas:** Datenhandhabung und Basisanalyse  
+- **statsmodels/Prophet:** Statistische Prognosemodelle  
+- **scikit-learn & ML:** Maschinelles Lernen für Prognosen  
+- **matplotlib/seaborn:** Visualisierung  
+- **numpy:** Mathematische Operationen
+
+---
+
+**Wenn du ein konkretes Beispiel oder eine bestimmte Methode sehen möchtest, sag Bescheid – ich kann dir ein passendes Python-Snippet dazu zeigen!**
