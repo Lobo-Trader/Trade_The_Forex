@@ -1,0 +1,76 @@
+# Python: Werkzeuge und Methoden für Zeitreihenanalyse & Prognose
+
+Python bietet eine **riesige Auswahl** an Methoden, Werkzeugen und Bibliotheken für die **Analyse und Prognose von Zeitreihen**.  
+Hier sind die wichtigsten und am häufigsten genutzten Tools und Methoden, kurz und übersichtlich erklärt:
+
+---
+
+## 1. pandas
+
+**Was kann es?**  
+Daten einlesen, bearbeiten, Zeitachsen erstellen, fehlende Werte behandeln, Resampling (z.B. von Minuten auf Stunden), Rolling Windows usw.
+
+**Typische Funktionen:**  
+- `pd.read_csv()`
+- `df.resample()`
+- `df.rolling()`
+- `df.shift()`
+
+**Beispiel:**  
+Daten als Zeitreihe („DatetimeIndex“) verwalten und analysieren.
+
+---
+
+## 2. numpy
+
+**Was kann es?**  
+Grundlegende mathematische Operationen, statistische Kennzahlen, schnelle Berechnungen mit Arrays.
+
+**Typische Funktionen:**  
+- `np.mean()`
+- `np.std()`
+- `np.diff()`
+
+---
+
+## 3. matplotlib & seaborn
+
+**Was können sie?**  
+**Visualisierung** von Zeitreihen und deren Eigenschaften (Plotten von Trends, Saisonalitäten, Gleitenden Durchschnitten).
+
+**Typische Funktionen:**  
+- `plt.plot()`
+- `sns.lineplot()`
+
+---
+
+## 4. statsmodels
+
+**Was kann es?**  
+**Statistische Modelle** für Zeitreihen, z.B. ARIMA, SARIMA, Exponentielle Glättung, Trend- und Saisonalitätsanalyse, Stationaritätstests (Dickey-Fuller-Test).
+
+**Typische Funktionen:**  
+- `ARIMA()`
+- `seasonal_decompose()`
+- `adfuller()`
+
+---
+
+## 5. scikit-learn
+
+**Was kann es?**  
+**Maschinelles Lernen** für Prognosen (Regression, Klassifikation), Feature Engineering für Zeitreihen.
+
+**Typische Funktionen:**  
+- `LinearRegression()`
+- `RandomForestRegressor()`
+
+---
+
+## 6. Prophet (von Meta/Facebook)
+
+**Was kann es?**  
+Speziell für **Zeitreihen-Prognosen** mit Trends, Saisonalität und Feiertagseffekten, sehr einfach zu bedienen.
+
+****
+
