@@ -62,7 +62,50 @@
 
 ---
 
-## 3. Wichtige Variablen & Parameter zur Quantifizierung
+## 3. Erweiterung: Marktgewalt / Geldfluss-Ansatz ("Market Force")
+
+### F) Marktgewalt/Money Flow zwischen Währungen
+
+- **Idee:**  
+  Anstelle oder zusätzlich zur Veränderung der CSI-Werte wird der „Geldfluss“ gemessen, indem Tickvolumen mit der absoluten Preisveränderung multipliziert wird.
+  - _Formel pro Paar/Jede Periode:_  
+    **MarketForce = Tickvolumen × |Preisänderung|**
+
+- **Interpretation:**  
+  - Hohe Marktgewalt = viel Volumen + große Preisbewegung → „echtes“ Geld/Orderflow ist aktiv.
+  - Niedrige Marktgewalt = wenig Bewegung trotz Volumen (Range) oder Bewegung ohne Volumen (illiquide Moves).
+
+- **Zuweisung Käufer/Verkäufer:**  
+  - Basiswährung = Käufer, Quotewährung = Verkäufer (bei positiver Preisänderung, z.B. EURUSD↑ → EUR-Käufer).
+  - Für jede Währung kann ein Nettogeldfluss berechnet werden:  
+    **MarketForce_Währung = Summe aller (Tickvolumen × Preisimpuls) als Basis - Summe als Quote**
+
+- **Praktische Anwendung:**
+  - **Signalfilter:** Entry nur, wenn sowohl CSI als auch MarketForce gleichsinnig und hoch.
+  - **Warnung vor Fehlsignalen:** CSI-Signal aber MarketForce niedrig → kein Entry.
+  - **Divergenzen:** Steigt CSI, aber MarketForce sinkt → Trend könnte auslaufen.
+  - **Visualisierung:** Heatmap oder Flussmatrix zwischen den 8 Währungen.
+
+- **Mögliche Regel (Pseudocode):**
+  ```python
+  if CSI_Signal == True and MarketForce_Währung > Schwelle:
+      # Entry erlaubt
+  if CSI_Signal != MarketForce_Richtung:
+      # Warnung, evtl. kein Trade
+  ```
+
+- **Vorteile:**
+  - Fokussierung auf echten Geldfluss (Orderflow)
+  - Besseres Erkennen von Fake Moves & bestätigten Trends
+  - Neue Features für ML und Optimierung (MarketForce-Divergenz, -Spitzen, -Richtungswechsel etc.)
+
+- **Grenzen:**
+  - Tickvolumen = Proxy, kein echtes Lotvolumen (besonders im Forex)
+  - Nicht jeder Move = echter Flow (manche Bewegungen werden mit wenig Volumen „getrieben“)
+
+---
+
+## 4. Wichtige Variablen & Parameter zur Quantifizierung
 
 | Variable                 | Bedeutung                                                      | Beispiel/Typ          |
 |--------------------------|---------------------------------------------------------------|-----------------------|
@@ -75,6 +118,8 @@
 | Durchschnitt_Tickvol     | Durchschnittliches Tickvolumen (z.B. gleitend)                | float                 |
 | Standardabweichung_CSI   | Streuung aller CSI-Werte                                      | float                 |
 | MultiTF_Signal           | MTF-Logik: gleichsinnige Signale auf mehreren TFs             | bool (0/1)            |
+| **MarketForce_Pair**     | Tickvolumen × |Preisänderung| für ein Paar                   | float                 |
+| **MarketForce_Währung**  | Nettosumme MarketForce über alle Paare pro Währung            | float                 |
 
 **Parameter für Schwellenwerte (für Optimierung):**
 - Schwelle_Steigung (z.B. 40 Grad oder ΔCSI/t > 0.2)
@@ -83,10 +128,11 @@
 - Bereich_Neutral (z.B. ±20 um 0)
 - Bereich_Extrem (z.B. >80/<20 oder ±162 Fibo)
 - Volumenfaktor (z.B. 1.1 × Durchschnitt)
+- MarketForce_Schwelle (z.B. 1.5 × gleitender Durchschnitt)
 
 ---
 
-## 4. Beispiele für messbare Regeln (Pseudocode)
+## 5. Beispiele für messbare Regeln (Pseudocode)
 
 ```python
 # Momentum-Divergenz-Signal
@@ -108,28 +154,40 @@ if CSI_A[t-1] < CSI_B[t-1] and CSI_A[t] > CSI_B[t] and \
 if CSI_A[t-1] > Extremzone and SLOPE(CSI_A)[t-1] > 0 and SLOPE(CSI_A)[t] < 0:
     # Reversal Short
     entry_short(A)
+
+# MarketForce-Filter
+if CSI_Signal and MarketForce_Währung > MarketForce_Schwelle:
+    # Entry erlaubt
+if CSI_Signal and MarketForce_Währung < MarketForce_Schwelle:
+    # Kein Entry
+
+# Divergenz CSI vs. MarketForce
+if Trend_CSI_up and MarketForce_Währung_down:
+    # Warnung: Trend könnte auslaufen!
 ```
 
 ---
 
-## 5. Optimierungsansätze & Feature Engineering
+## 6. Optimierungsansätze & Feature Engineering
 
 - **Alle Schwellenwerte und Bereiche als Parameter für Backtesting und ML-Optimierung definieren.**
 - **Features für ML:**
-  - Abstand, Steigung, Kreuzungsstatus, Kreuzungsbereich, Standardabweichung, Tickvolumen, MTF-Status, CSI-Extremstatus etc.
+  - Abstand, Steigung, Kreuzungsstatus, Kreuzungsbereich, Standardabweichung, Tickvolumen, MTF-Status, CSI-Extremstatus,
+  - MarketForce pro Paar/Währung, MarketForce-Divergenz, MarketForce-Spitzen, MarketForce-Richtungswechsel etc.
 - **Ziel:**  
-  - Die Kombination aus Feature-Engineering (z.B. Divergenz + Momentum + Volumen) erlaubt robuste, automatisierbare Signale und spätere Optimierung im Backtest/ML.
+  - Die Kombination aus Feature-Engineering (z.B. Divergenz + Momentum + Volumen + MarketForce) erlaubt robuste, automatisierbare Signale und spätere Optimierung im Backtest/ML.
 
 ---
 
-## 6. ToDo für Umsetzung in MQL5 und Python
+## 7. ToDo für Umsetzung in MQL5 und Python
 
 - CSI-Berechnung (ggf. mit Volumen)
+- MarketForce-Berechnung für Paare & Währungen
 - Messbare Features/Parameter pro Balken berechnen
 - Signal-Logik als Funktionsblock
 - Parameter als Inputs für Optimierung bereitstellen
 - Multi-TF-Integration
-- Visualisierung (z.B. Heatmap für Divergenz + Momentum)
+- Visualisierung (z.B. Heatmap für Divergenz + Momentum + MarketForce)
 
 ---
 
